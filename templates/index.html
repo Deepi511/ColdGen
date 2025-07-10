@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ColdGen</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: 
+                linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.64)), 
+                url('https://static.vecteezy.com/system/resources/previews/023/970/434/non_2x/businessman-checking-message-box-on-laptop-and-send-email-email-marketing-concept-digital-newsletter-to-customers-online-marketing-strategies-that-reach-target-customers-photo.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+
+        .container {
+            background-color: white;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            color: #444;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-top: 5px;
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            flex: 1;
+            padding: 10px;
+            background-color:rgb(173, 77, 117);
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        button:hover {
+            background-color:rgb(236, 30, 150);
+        }
+
+        .email-box {
+            white-space: pre-wrap;
+            background-color: #f0f2f5;
+            padding: 15px;
+            margin-top: 25px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .copy-btn {
+            margin-top: 10px;
+            background-color: #3498db;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📧 ColdGen - A Smart Email Generator</h1>
+
+        <form method="POST">
+            <label>Your Name:</label>
+            <input type="text" name="username" placeholder="e.g. Deepika" required>
+
+            <label>Job URL:</label>
+            <input type="text" name="job_url" placeholder="Paste job listing URL..." required>
+
+            <label>Choose Email Tone:</label>
+            <select name="tone">
+                <option value="formal">Formal</option>
+                <option value="casual">Casual</option>
+            </select>
+
+            <div class="button-row">
+                <button type="submit" name="generate">Generate</button>
+                {% if email %}
+                <button type="submit" name="regenerate">Better Email</button>
+                {% endif %}
+            </div>
+        </form>
+
+        {% if email %}
+        <div class="email-box" id="emailBox">{{ email }}</div>
+        <button class="copy-btn" onclick="copyToClipboard()">📋 Copy Email</button>
+        {% endif %}
+
+        {% if error %}
+        <div class="error">Error: {{ error }}</div>
+        {% endif %}
+    </div>
+
+    <script>
+        function copyToClipboard() {
+            const text = document.getElementById("emailBox").innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert("✅ Email copied to clipboard!");
+            }, () => {
+                alert("❌ Failed to copy email.");
+            });
+        }
+    </script>
+</body>
+</html>
