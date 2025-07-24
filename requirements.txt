@@ -1,9 +1,48 @@
+# Core LangChain dependencies
 langchain==0.2.14
 langchain-community==0.2.12
-langchain-groq===0.1.9
-unstructured==0.14.6
-selenium==4.21.0
-chromadb==0.5.0
-streamlit==1.35.0
+langchain-groq==0.1.9
+langchain-core>=0.2.32,<0.3.0
+
+# Web framework
+flask==3.0.3
+
+# Data processing
 pandas==2.0.2
+numpy==1.24.3
+
+# Vector database and embeddings
+chromadb==0.5.0
+sentence-transformers==2.6.1
+
+# Web scraping
+selenium==4.21.0
+unstructured==0.14.6
+beautifulsoup4==4.12.3
+requests==2.31.0
+
+# Environment and utilities
 python-dotenv==1.0.0
+pydantic==2.7.4
+
+# Optional: For better text processing
+tiktoken==0.7.0
+
+# Optional: For development
+streamlit==1.35.0
+
+# System dependencies (if needed)
+# These might be required depending on your system
+huggingface-hub==0.23.4
+transformers==4.42.3
+torch==2.3.1
+tokenizers==0.19.1
+
+# For better JSON handling
+ujson==5.10.0
+
+# For async support (if needed)
+aiohttp==3.9.5
+
+# For better error handling and logging
+loguru==0.7.2
