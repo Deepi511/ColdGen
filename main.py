@@ -3,18 +3,25 @@ from langchain_community.document_loaders import WebBaseLoader
 from chains import Chain
 from portfolio import Portfolio
 from utils import clean_text
+from loguru import logger
+from functools import lru_cache
 import os
 import traceback
 
 app = Flask(__name__)
 
+# Configure logger
+logger.add("app.log", rotation="500 MB")
+
 # Initialize components with error handling
 try:
     chain = Chain()
     portfolio = Portfolio()
-    print("Components initialized successfully")
+    # Load portfolio once at startup to avoid overhead during requests
+    portfolio.load_portfolio()
+    logger.info("Application components initialized successfully")
 except Exception as e:
-    print(f"Error initializing components: {e}")
+    logger.error(f"Error initializing components: {e}")
     chain = None
     portfolio = None
 
@@ -27,6 +34,18 @@ cached_data = {
     "last_url": None
 }
 
+@lru_cache(maxsize=50)
+def get_job_data(url):
+    """Cached function to fetch and clean job data from a URL"""
+    logger.info(f"Scraping and cleaning data from: {url}")
+    loader = WebBaseLoader([url])
+    raw_data = loader.load()
+    
+    if not raw_data:
+        return None
+    
+    return clean_text(raw_data[0].page_content)
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     email_result = None
@@ -34,80 +53,48 @@ def index():
     jobs_found = 0
 
     if request.method == "POST":
-        # Check if components are initialized
         if chain is None or portfolio is None:
-            error = "Application components not properly initialized. Please check your configuration."
+            error = "Application components not properly initialized."
+            logger.error(error)
             return render_template("index.html", email=email_result, error=error, jobs_found=jobs_found)
 
         if "generate" in request.form:
             url = request.form.get("job_url", "").strip()
-            username = request.form.get("username", "").strip()
+            username = request.form.get("username", "").strip() or "User"
             tone = request.form.get("tone", "formal").strip()
 
-            # Validate inputs
             if not url:
                 error = "Please provide a valid job URL."
                 return render_template("index.html", email=email_result, error=error, jobs_found=jobs_found)
 
-            if not username:
-                username = "User"
-
-            if tone not in ["formal", "casual", "professional", "friendly"]:
-                tone = "formal"
-
             try:
-                # Load and process webpage
-                print(f"Loading URL: {url}")
-                loader = WebBaseLoader([url])
-                raw_data = loader.load()
-                
-                if not raw_data:
-                    raise ValueError("No content could be loaded from the provided URL.")
-                
-                # Clean the text
-                cleaned_data = clean_text(raw_data[0].page_content)
+                logger.info(f"Processing URL: {url}")
+                cleaned_data = get_job_data(url)
                 
                 if not cleaned_data or len(cleaned_data.strip()) < 50:
-                    raise ValueError("Insufficient content extracted from the webpage. Please check if the URL contains job postings.")
+                    raise ValueError("No valid content could be extracted from the provided URL.")
 
-                # Load portfolio
-                print("Loading portfolio...")
-                portfolio_loaded = portfolio.load_portfolio()
-                if not portfolio_loaded:
-                    print("Warning: Portfolio could not be loaded, continuing with empty portfolio")
-
-                # Extract jobs
-                print("Extracting jobs...")
+                logger.info("Extracting jobs...")
                 jobs = chain.extract_jobs(cleaned_data)
                 jobs_found = len(jobs) if jobs else 0
                 
                 if not jobs:
-                    raise ValueError("No job postings could be extracted from the webpage. Please verify the URL contains job listings.")
+                    raise ValueError("No job postings could be extracted.")
 
-                # Use the first job
                 job = jobs[0]
-                print(f"Found job: {job.get('role', 'Unknown')}")
-
-                # Get skills and query portfolio
                 skills = job.get("skills", [])
-                if not isinstance(skills, list):
-                    skills = []
-
-                print(f"Skills found: {skills}")
                 
                 links = []
                 if portfolio.is_ready() and skills:
                     links = portfolio.query_links(skills)
-                    print(f"Found {len(links)} relevant projects")
+                    logger.info(f"Matched {len(links)} portfolio items")
 
-                # Generate email
-                print("Generating email...")
+                logger.info("Generating email...")
                 email = chain.write_mail(job, links, username=username, tone=tone)
                 
-                if not email or email.strip() == "":
-                    raise ValueError("Email generation failed. Please try again.")
+                if not email:
+                    raise ValueError("Email generation returned empty result.")
 
-                # Cache the data for regeneration
                 cached_data.update({
                     "last_job": job,
                     "last_links": links,
@@ -117,72 +104,42 @@ def index():
                 })
 
                 email_result = email
-                print("Email generated successfully")
+                logger.info("Email generated successfully")
 
             except Exception as e:
-                error = f"Error processing job posting: {str(e)}"
-                print(f"Error: {error}")
-                print(traceback.format_exc())
+                error = f"Error: {str(e)}"
+                logger.error(f"Processing failed: {error}")
+                logger.debug(traceback.format_exc())
 
         elif "regenerate" in request.form:
-            # Regenerate email with cached data
-            if not all([cached_data["last_job"], cached_data["last_username"], cached_data["last_tone"]]):
-                error = "No previous data found. Please generate an email first."
+            if not cached_data["last_job"]:
+                error = "No previous data found."
                 return render_template("index.html", email=email_result, error=error, jobs_found=jobs_found)
 
             try:
-                print("Regenerating email with cached data...")
+                logger.info("Regenerating email...")
                 email = chain.write_mail(
                     cached_data["last_job"],
                     cached_data["last_links"] or [],
                     username=cached_data["last_username"],
                     tone=cached_data["last_tone"]
                 )
-                
-                if not email or email.strip() == "":
-                    raise ValueError("Email regeneration failed. Please try again.")
-                
                 email_result = email
-                jobs_found = 1  # We know we have at least one job in cache
-                print("Email regenerated successfully")
-
+                jobs_found = 1
             except Exception as e:
                 error = f"Regeneration failed: {str(e)}"
-                print(f"Regeneration error: {error}")
+                logger.error(error)
 
     return render_template("index.html", email=email_result, error=error, jobs_found=jobs_found)
 
 @app.route("/ping")
 def ping():
-    """Health check endpoint"""
-    status = {
-        "status": "running",
-        "components": {
-            "chain": chain is not None,
-            "portfolio": portfolio is not None and portfolio.is_ready()
-        }
-    }
-    return jsonify(status), 200
+    return jsonify({"status": "running"}), 200
 
 @app.route("/health")
 def health():
-    """Detailed health check"""
-    health_status = {
-        "status": "healthy",
-        "components": {
-            "chain_initialized": chain is not None,
-            "portfolio_initialized": portfolio is not None,
-            "portfolio_ready": portfolio.is_ready() if portfolio else False,
-            "groq_api_key": os.getenv("GROQ_API_KEY") is not None
-        }
-    }
-    
-    # Check if critical components are missing
-    if not chain or not portfolio:
-        health_status["status"] = "unhealthy"
-        return jsonify(health_status), 500
-    
-    return jsonify(health_status), 200
+    status = "healthy" if chain and portfolio and portfolio.is_ready() else "unhealthy"
+    return jsonify({"status": status}), 200 if status == "healthy" else 500
 
 @app.errorhandler(404)
 def not_found(error):
@@ -195,4 +152,5 @@ def internal_error(error):
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     debug = os.environ.get("DEBUG", "True").lower() == "true"
-    app.run(host="0.0.0.0", port=port, debug=debug)
+    logger.info(f"Starting server on port {port}")
+    app.run(host="0.0.0.0", port=port, debug=debug)

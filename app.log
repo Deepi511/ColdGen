@@ -1,0 +1,143 @@
+2026-03-25 23:02:33.609 | DEBUG    | portfolio:_initialize:40 - Loaded 5 items from CSV
+2026-03-25 23:02:42.777 | INFO     | portfolio:_initialize:44 - Embedding model initialized
+2026-03-25 23:02:43.361 | INFO     | portfolio:_initialize:53 - ChromaDB initialized
+2026-03-25 23:02:43.361 | INFO     | __main__:<module>:19 - Application components initialized successfully
+2026-03-25 23:02:43.363 | INFO     | __main__:<module>:151 - Starting server on port 5000
+2026-03-25 23:02:55.681 | DEBUG    | portfolio:_initialize:40 - Loaded 5 items from CSV
+2026-03-25 23:03:02.846 | INFO     | portfolio:_initialize:44 - Embedding model initialized
+2026-03-25 23:03:02.971 | INFO     | portfolio:_initialize:53 - ChromaDB initialized
+2026-03-25 23:03:02.972 | INFO     | __main__:<module>:19 - Application components initialized successfully
+2026-03-25 23:03:02.975 | INFO     | __main__:<module>:151 - Starting server on port 5000
+2026-03-25 23:07:00.629 | DEBUG    | portfolio:_initialize:40 - Loaded 5 items from CSV
+2026-03-25 23:07:09.463 | INFO     | portfolio:_initialize:44 - Embedding model initialized
+2026-03-25 23:07:09.595 | INFO     | portfolio:_initialize:53 - ChromaDB initialized
+2026-03-25 23:07:09.596 | INFO     | __main__:<module>:19 - Application components initialized successfully
+2026-03-25 23:07:09.597 | INFO     | __main__:<module>:151 - Starting server on port 5000
+2026-05-03 20:12:15.506 | DEBUG    | portfolio:_initialize:40 - Loaded 5 items from CSV
+2026-05-03 20:12:45.043 | INFO     | portfolio:_initialize:44 - Embedding model initialized
+2026-05-03 20:12:45.507 | INFO     | portfolio:_initialize:53 - ChromaDB initialized
+2026-05-03 20:12:45.508 | INFO     | __main__:<module>:19 - Application components initialized successfully
+2026-05-03 20:12:45.513 | INFO     | __main__:<module>:151 - Starting server on port 5000
+2026-05-03 20:12:53.629 | DEBUG    | portfolio:_initialize:40 - Loaded 5 items from CSV
+2026-05-03 20:13:06.837 | INFO     | portfolio:_initialize:44 - Embedding model initialized
+2026-05-03 20:13:07.107 | INFO     | portfolio:_initialize:53 - ChromaDB initialized
+2026-05-03 20:13:07.108 | INFO     | __main__:<module>:19 - Application components initialized successfully
+2026-05-03 20:13:07.110 | INFO     | __main__:<module>:151 - Starting server on port 5000
+2026-05-03 20:13:15.403 | DEBUG    | portfolio:_initialize:40 - Loaded 5 items from CSV
+2026-05-03 20:13:26.481 | INFO     | portfolio:_initialize:44 - Embedding model initialized
+2026-05-03 20:13:26.766 | INFO     | portfolio:_initialize:53 - ChromaDB initialized
+2026-05-03 20:13:26.766 | INFO     | __main__:<module>:19 - Application components initialized successfully
+2026-05-03 20:13:26.768 | INFO     | __main__:<module>:151 - Starting server on port 5000
+2026-05-03 20:13:26.840 | INFO     | __main__:index:56 - Processing URL: https://www.google.com/about/careers/applications/jobs/results/97144402941485766-software-engineer-infrastructure-quantum-ai
+2026-05-03 20:13:31.291 | INFO     | __main__:index:68 - Loading portfolio...
+2026-05-03 20:13:31.317 | ERROR    | portfolio:load_portfolio:94 - Error loading portfolio: object of type 'int' has no len()
+2026-05-03 20:13:31.318 | WARNING  | __main__:index:71 - Portfolio could not be loaded
+2026-05-03 20:13:31.318 | INFO     | __main__:index:73 - Extracting jobs...
+2026-05-03 20:13:35.105 | ERROR    | chains:extract_jobs:107 - Error in job extraction: Expecting value: line 1 column 2 (char 1)
+2026-05-03 20:13:35.106 | ERROR    | portfolio:query_links:127 - Error querying portfolio: object of type 'int' has no len()
+2026-05-03 20:13:35.107 | INFO     | __main__:index:86 - Matched 0 portfolio items
+2026-05-03 20:13:35.107 | INFO     | __main__:index:88 - Generating email...
+2026-05-03 20:13:35.107 | INFO     | chains:write_mail:179 - Generating email for Position Available in formal tone
+2026-05-03 20:13:36.067 | INFO     | __main__:index:103 - Email generated successfully
+2026-05-03 20:13:42.900 | DEBUG    | portfolio:_initialize:40 - Loaded 5 items from CSV
+2026-05-03 20:13:54.520 | INFO     | portfolio:_initialize:44 - Embedding model initialized
+2026-05-03 20:13:54.992 | INFO     | portfolio:_initialize:53 - ChromaDB initialized
+2026-05-03 20:13:54.993 | INFO     | __main__:<module>:19 - Application components initialized successfully
+2026-05-03 20:13:54.995 | INFO     | __main__:<module>:151 - Starting server on port 5000
+2026-05-03 20:14:01.532 | DEBUG    | portfolio:_initialize:40 - Loaded 5 items from CSV
+2026-05-03 20:14:12.186 | INFO     | portfolio:_initialize:44 - Embedding model initialized
+2026-05-03 20:14:12.430 | INFO     | portfolio:_initialize:53 - ChromaDB initialized
+2026-05-03 20:14:12.431 | INFO     | __main__:<module>:19 - Application components initialized successfully
+2026-05-03 20:14:12.432 | INFO     | __main__:<module>:151 - Starting server on port 5000
+2026-05-15 19:05:09.710 | DEBUG    | portfolio:_initialize:40 - Loaded 5 items from CSV
+2026-05-15 19:05:16.042 | INFO     | portfolio:_initialize:44 - Embedding model initialized
+2026-05-15 19:05:16.623 | INFO     | portfolio:_initialize:53 - ChromaDB initialized
+2026-05-15 19:05:16.623 | INFO     | __main__:<module>:19 - Application components initialized successfully
+2026-05-15 19:05:16.625 | INFO     | __main__:<module>:151 - Starting server on port 5000
+2026-05-15 19:05:27.898 | DEBUG    | portfolio:_initialize:40 - Loaded 5 items from CSV
+2026-05-15 19:05:34.017 | INFO     | portfolio:_initialize:44 - Embedding model initialized
+2026-05-15 19:05:34.108 | INFO     | portfolio:_initialize:53 - ChromaDB initialized
+2026-05-15 19:05:34.108 | INFO     | __main__:<module>:19 - Application components initialized successfully
+2026-05-15 19:05:34.109 | INFO     | __main__:<module>:151 - Starting server on port 5000
+2026-05-15 20:13:07.424 | DEBUG    | portfolio:_initialize:40 - Loaded 5 items from CSV
+2026-05-15 20:13:13.799 | INFO     | portfolio:_initialize:44 - Embedding model initialized
+2026-05-15 20:13:14.390 | INFO     | portfolio:_initialize:53 - ChromaDB initialized
+2026-05-15 20:13:14.391 | INFO     | __main__:<module>:19 - Application components initialized successfully
+2026-05-15 20:13:14.392 | INFO     | __main__:<module>:151 - Starting server on port 5000
+2026-05-15 20:13:25.444 | DEBUG    | portfolio:_initialize:40 - Loaded 5 items from CSV
+2026-05-15 20:13:31.195 | INFO     | portfolio:_initialize:44 - Embedding model initialized
+2026-05-15 20:13:31.288 | INFO     | portfolio:_initialize:53 - ChromaDB initialized
+2026-05-15 20:13:31.288 | INFO     | __main__:<module>:19 - Application components initialized successfully
+2026-05-15 20:13:31.290 | INFO     | __main__:<module>:151 - Starting server on port 5000
+2026-05-15 20:33:24.483 | INFO     | __main__:index:56 - Processing URL: https://www.google.com/about/careers/applications/jobs/results/104714952278713030-software-engineer-cloud-infrastructure-engineering
+2026-05-15 20:33:27.541 | INFO     | __main__:index:68 - Loading portfolio...
+2026-05-15 20:33:27.771 | INFO     | portfolio:load_portfolio:75 - Portfolio already contains 5 items
+2026-05-15 20:33:27.772 | INFO     | __main__:index:73 - Extracting jobs...
+2026-05-15 20:33:30.787 | INFO     | chains:extract_jobs:91 - Successfully extracted 21 jobs
+2026-05-15 20:39:07.702 | INFO     | portfolio:query_links:123 - Found 5 relevant portfolio items for skills: ['software development', 'testing', 'maintaining']...
+2026-05-15 20:39:07.703 | INFO     | __main__:index:86 - Matched 5 portfolio items
+2026-05-15 20:39:07.703 | INFO     | __main__:index:88 - Generating email...
+2026-05-15 20:39:07.704 | INFO     | chains:write_mail:179 - Generating email for Software Engineer, Cloud Infrastructure Engineering in formal tone
+2026-05-15 20:39:09.431 | INFO     | __main__:index:103 - Email generated successfully
+2026-05-15 20:41:26.399 | DEBUG    | portfolio:_initialize:40 - Loaded 5 items from CSV
+2026-05-15 20:41:37.937 | INFO     | portfolio:_initialize:44 - Embedding model initialized
+2026-05-15 20:41:38.300 | INFO     | portfolio:_initialize:53 - ChromaDB initialized
+2026-05-15 20:41:38.301 | INFO     | __main__:<module>:19 - Application components initialized successfully
+2026-05-15 20:41:38.304 | INFO     | __main__:<module>:151 - Starting server on port 5000
+2026-05-15 20:41:54.564 | DEBUG    | portfolio:_initialize:40 - Loaded 5 items from CSV
+2026-05-15 20:42:01.272 | INFO     | portfolio:_initialize:44 - Embedding model initialized
+2026-05-15 20:42:01.397 | INFO     | portfolio:_initialize:53 - ChromaDB initialized
+2026-05-15 20:42:01.397 | INFO     | __main__:<module>:19 - Application components initialized successfully
+2026-05-15 20:42:01.399 | INFO     | __main__:<module>:151 - Starting server on port 5000
+2026-05-15 21:02:47.611 | DEBUG    | portfolio:_initialize:39 - Loaded 5 items from CSV
+2026-05-15 21:02:47.890 | INFO     | portfolio:_initialize:47 - ChromaDB initialized
+2026-05-15 21:02:48.064 | INFO     | portfolio:load_portfolio:69 - Portfolio already contains 5 items
+2026-05-15 21:02:48.065 | INFO     | __main__:<module>:22 - Application components initialized successfully
+2026-05-15 21:02:48.066 | INFO     | __main__:<module>:155 - Starting server on port 5000
+2026-05-15 21:03:03.531 | DEBUG    | portfolio:_initialize:39 - Loaded 5 items from CSV
+2026-05-15 21:03:03.698 | INFO     | portfolio:_initialize:47 - ChromaDB initialized
+2026-05-15 21:03:03.816 | INFO     | portfolio:load_portfolio:69 - Portfolio already contains 5 items
+2026-05-15 21:03:03.819 | INFO     | __main__:<module>:22 - Application components initialized successfully
+2026-05-15 21:03:03.825 | INFO     | __main__:<module>:155 - Starting server on port 5000
+2026-05-15 21:03:12.860 | INFO     | __main__:index:71 - Processing URL: https://www.google.com/about/careers/applications/jobs/results/97144402941485766-software-engineer-infrastructure-quantum-ai
+2026-05-15 21:03:12.861 | INFO     | __main__:get_job_data:40 - Scraping and cleaning data from: https://www.google.com/about/careers/applications/jobs/results/97144402941485766-software-engineer-infrastructure-quantum-ai
+2026-05-15 21:03:16.261 | INFO     | __main__:index:77 - Extracting jobs...
+2026-05-15 21:03:18.885 | INFO     | chains:extract_jobs:98 - Successfully extracted 20 jobs
+2026-05-15 21:03:19.918 | INFO     | portfolio:query_links:117 - Found 5 relevant portfolio items for skills: ['Control Systems', 'Networking']...
+2026-05-15 21:03:19.918 | INFO     | __main__:index:90 - Matched 5 portfolio items
+2026-05-15 21:03:19.919 | INFO     | __main__:index:92 - Generating email...
+2026-05-15 21:03:19.920 | INFO     | chains:write_mail:186 - Generating email for Control Systems Networking Engineer in formal tone
+2026-05-15 21:03:21.362 | INFO     | __main__:index:107 - Email generated successfully
+2026-05-15 21:31:31.434 | DEBUG    | portfolio:_initialize:39 - Loaded 5 items from CSV
+2026-05-15 21:31:31.611 | INFO     | portfolio:_initialize:47 - ChromaDB initialized
+2026-05-15 21:31:31.660 | INFO     | portfolio:load_portfolio:69 - Portfolio already contains 5 items
+2026-05-15 21:31:31.662 | INFO     | __main__:<module>:22 - Application components initialized successfully
+2026-05-15 21:31:31.665 | INFO     | __main__:<module>:155 - Starting server on port 5000
+2026-05-15 21:31:45.666 | DEBUG    | portfolio:_initialize:39 - Loaded 5 items from CSV
+2026-05-15 21:31:45.820 | INFO     | portfolio:_initialize:47 - ChromaDB initialized
+2026-05-15 21:31:45.887 | INFO     | portfolio:load_portfolio:69 - Portfolio already contains 5 items
+2026-05-15 21:31:45.887 | INFO     | __main__:<module>:22 - Application components initialized successfully
+2026-05-15 21:31:45.889 | INFO     | __main__:<module>:155 - Starting server on port 5000
+2026-05-15 21:34:51.616 | INFO     | __main__:index:71 - Processing URL: https://hire-r1.mokahr.com/su/aQA1e
+2026-05-15 21:34:51.617 | INFO     | __main__:get_job_data:40 - Scraping and cleaning data from: https://hire-r1.mokahr.com/su/aQA1e
+2026-05-15 21:34:53.497 | ERROR    | __main__:index:111 - Processing failed: Error: No valid content could be extracted from the provided URL.
+2026-05-15 21:34:53.498 | DEBUG    | __main__:index:112 - Traceback (most recent call last):
+  File "C:\Users\ELCOT\PROJECTS\Project\ColdGen\main.py", line 75, in index
+    raise ValueError("No valid content could be extracted from the provided URL.")
+ValueError: No valid content could be extracted from the provided URL.
+
+2026-05-15 21:35:20.735 | INFO     | __main__:index:71 - Processing URL: https://hire-r1.mokahr.com/social-recruitment/tesla/100004142#/job/299954c6-5fea-4443-9bcb-b2f22a1308d4
+2026-05-15 21:35:20.735 | INFO     | __main__:get_job_data:40 - Scraping and cleaning data from: https://hire-r1.mokahr.com/social-recruitment/tesla/100004142#/job/299954c6-5fea-4443-9bcb-b2f22a1308d4
+2026-05-15 21:35:23.041 | ERROR    | __main__:index:111 - Processing failed: Error: No valid content could be extracted from the provided URL.
+2026-05-15 21:35:23.042 | DEBUG    | __main__:index:112 - Traceback (most recent call last):
+  File "C:\Users\ELCOT\PROJECTS\Project\ColdGen\main.py", line 75, in index
+    raise ValueError("No valid content could be extracted from the provided URL.")
+ValueError: No valid content could be extracted from the provided URL.
+
+2026-05-15 21:39:19.360 | INFO     | __main__:index:71 - Processing URL: https://career.infosys.com/jobdesc?jobReferenceCode=INFSYS-EXTERNAL-245638&sourceId=1
+2026-05-15 21:39:19.361 | INFO     | __main__:get_job_data:40 - Scraping and cleaning data from: https://career.infosys.com/jobdesc?jobReferenceCode=INFSYS-EXTERNAL-245638&sourceId=1
+2026-05-15 21:39:20.585 | INFO     | __main__:index:77 - Extracting jobs...
+2026-05-15 21:39:22.003 | INFO     | chains:extract_jobs:108 - Successfully extracted 1 job
+2026-05-15 21:39:22.010 | INFO     | __main__:index:92 - Generating email...
+2026-05-15 21:39:22.013 | INFO     | chains:write_mail:186 - Generating email for Unknown Role in formal tone
+2026-05-15 21:39:22.968 | INFO     | __main__:index:107 - Email generated successfully

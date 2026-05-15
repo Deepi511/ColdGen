@@ -1,9 +1,25 @@
 import re
 from typing import Optional
+from bs4 import BeautifulSoup
+from loguru import logger
+
+# Pre-compiled patterns for performance
+CLEAN_CHARS_PATTERN = re.compile(r'[^a-zA-Z0-9\s.#+\-(),:;]')
+WHITESPACE_PATTERN = re.compile(r'\s+')
+HTML_TAG_PATTERN = re.compile(r'<[^>]*?>')
+URL_VALIDATION_PATTERN = re.compile(
+    r'^https?://'  # http:// or https://
+    r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+[A-Z]{2,6}\.?|'  # domain...
+    r'localhost|'  # localhost...
+    r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'  # ...or ip
+    r'(?::\d+)?'  # optional port
+    r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+COMPANY_DOMAIN_PATTERN = re.compile(r'https?://(?:www\.)?([^/]+)')
+DOMAIN_CLEANUP_PATTERN = re.compile(r'\.(com|org|net|edu|gov|io|co\.uk|co\.in)$')
 
 def clean_text(text: str) -> str:
     """
-    Clean and normalize text from web scraping.
+    Clean and normalize text from web scraping using BeautifulSoup.
     
     Args:
         text: Raw text from webpage
@@ -14,39 +30,34 @@ def clean_text(text: str) -> str:
     if not text or not isinstance(text, str):
         return ""
     
-    # Remove HTML tags
-    text = re.sub(r'<[^>]*?>', '', text)
-    
-    # Remove URLs
-    text = re.sub(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', '', text)
-    
-    # Remove email addresses
-    text = re.sub(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', '', text)
-    
-    # Remove script and style content
-    text = re.sub(r'<script[^>]*>.*?</script>', '', text, flags=re.DOTALL | re.IGNORECASE)
-    text = re.sub(r'<style[^>]*>.*?</style>', '', text, flags=re.DOTALL | re.IGNORECASE)
-    
-    # Keep alphanumeric, spaces, and common tech symbols
-    text = re.sub(r'[^a-zA-Z0-9\s.#+\-(),:;]', ' ', text)
-    
-    # Normalize whitespace
-    text = re.sub(r'\s+', ' ', text)
-    
-    # Remove extra spaces and trim
-    text = text.strip()
-    
-    return text
+    try:
+        # Use BeautifulSoup to parse HTML and handle edge cases
+        soup = BeautifulSoup(text, "html.parser")
+        
+        # Remove script and style elements
+        for script_or_style in soup(["script", "style"]):
+            script_or_style.decompose()
+            
+        # Get text and handle whitespace
+        cleaned_text = soup.get_text(separator=' ')
+        
+        # Keep alphanumeric, spaces, and common tech symbols
+        cleaned_text = CLEAN_CHARS_PATTERN.sub(' ', cleaned_text)
+        
+        # Normalize whitespace
+        cleaned_text = WHITESPACE_PATTERN.sub(' ', cleaned_text)
+        
+        return cleaned_text.strip()
+    except Exception as e:
+        logger.error(f"Error cleaning text: {e}")
+        # Fallback to basic regex cleaning if BS4 fails
+        text = HTML_TAG_PATTERN.sub('', text)
+        text = WHITESPACE_PATTERN.sub(' ', text)
+        return text.strip()
 
 def extract_skills_from_text(text: str) -> list:
     """
     Extract potential skills/technologies from text.
-    
-    Args:
-        text: Text to extract skills from
-        
-    Returns:
-        List of potential skills
     """
     if not text:
         return []
@@ -66,42 +77,20 @@ def extract_skills_from_text(text: str) -> list:
         matches = re.findall(pattern, text, re.IGNORECASE)
         skills.extend(matches)
     
-    # Remove duplicates and return
     return list(set(skills))
 
 def validate_url(url: str) -> bool:
     """
     Validate if a URL is properly formatted.
-    
-    Args:
-        url: URL to validate
-        
-    Returns:
-        True if valid, False otherwise
     """
     if not url or not isinstance(url, str):
         return False
     
-    url_pattern = re.compile(
-        r'^https?://'  # http:// or https://
-        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+[A-Z]{2,6}\.?|'  # domain...
-        r'localhost|'  # localhost...
-        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'  # ...or ip
-        r'(?::\d+)?'  # optional port
-        r'(?:/?|[/?]\S+)$', re.IGNORECASE)
-    
-    return url_pattern.match(url) is not None
+    return URL_VALIDATION_PATTERN.match(url) is not None
 
 def truncate_text(text: str, max_length: int = 1000) -> str:
     """
     Truncate text to maximum length.
-    
-    Args:
-        text: Text to truncate
-        max_length: Maximum length allowed
-        
-    Returns:
-        Truncated text
     """
     if not text or len(text) <= max_length:
         return text
@@ -111,12 +100,6 @@ def truncate_text(text: str, max_length: int = 1000) -> str:
 def format_job_description(job: dict) -> str:
     """
     Format job dictionary into readable string.
-    
-    Args:
-        job: Job dictionary
-        
-    Returns:
-        Formatted job description
     """
     if not job or not isinstance(job, dict):
         return "No job information available"
@@ -142,23 +125,13 @@ def format_job_description(job: dict) -> str:
 def sanitize_filename(filename: str) -> str:
     """
     Sanitize filename by removing/replacing invalid characters.
-    
-    Args:
-        filename: Original filename
-        
-    Returns:
-        Sanitized filename
     """
     if not filename:
         return "untitled"
     
-    # Remove invalid characters
     filename = re.sub(r'[<>:"/\\|?*]', '_', filename)
-    
-    # Remove leading/trailing spaces and dots
     filename = filename.strip('. ')
     
-    # Ensure it's not empty
     if not filename:
         filename = "untitled"
     
@@ -167,25 +140,17 @@ def sanitize_filename(filename: str) -> str:
 def extract_company_name(url: str) -> Optional[str]:
     """
     Extract company name from URL.
-    
-    Args:
-        url: Company URL
-        
-    Returns:
-        Company name or None
     """
     if not url or not isinstance(url, str):
         return None
     
     try:
-        # Extract domain
-        domain_match = re.search(r'https?://(?:www\.)?([^/]+)', url)
+        domain_match = COMPANY_DOMAIN_PATTERN.search(url)
         if domain_match:
             domain = domain_match.group(1)
-            # Remove common suffixes
-            domain = re.sub(r'\.(com|org|net|edu|gov|io|co\.uk|co\.in)$', '', domain)
-            # Capitalize first letter
+            domain = DOMAIN_CLEANUP_PATTERN.sub('', domain)
             return domain.capitalize()
         return None
-    except:
-        return None
+    except Exception as e:
+        logger.warning(f"Failed to extract company name from {url}: {e}")
+        return None
